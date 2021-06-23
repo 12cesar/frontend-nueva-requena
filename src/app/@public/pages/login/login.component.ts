@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.loginService.postLogin(formData).subscribe(data=>{
       console.log(data);
       localStorage.setItem('token', data.token);
-      this.router.navigate(['/admin']);
+      this.router.navigate(['/']);
     }, error=>{
       this.toastr.warning('Usuario o password incorrecto', 'ERROR DE INICIO');
 
