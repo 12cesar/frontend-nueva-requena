@@ -1,0 +1,27 @@
+<div class="loginCont">
+    <main class="form-signin">
+        <form class="text-center" [formGroup]="loginForm" (ngSubmit)="crearToken()">
+          <img class="mb-4 float-center imagenlogin" src="{{imagenDefecto}}" alt="" width="100" height="100">
+          <h1 class="h3 mb-3 fw-normal">Porfavor registrese!</h1>
+      
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Usuario" formControlName="usuario">
+            <label for="floatingInput">Usuario</label>
+            <div class="text-danger"
+              *ngIf="loginForm.get('usuario')?.hasError('required') && loginForm.get('usuario')?.touched">
+              <span>El usuario es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
+            <label for="floatingPassword">Password</label>
+            <div class="text-danger"
+              *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+              <span>El password es <strong>obligatorio</strong></span>
+            </div>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit" [disabled]="loginForm.invalid || enviado">Entrar</button>
+          <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+        </form>
+      </main>
+</div>

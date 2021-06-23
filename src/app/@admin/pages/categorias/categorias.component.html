@@ -1,0 +1,67 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body text-center">
+          <span class="titulo">LISTADO DE CATEGORIAS</span>
+          <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear <i class="fas fa-plus"></i></button>
+          <table class="table table-striped" *ngIf="listCategorias.length>0">
+            <thead>
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let categorias of listCategorias | paginate: { itemsPerPage: 10, currentPage: pageActual }">
+                <td>{{categorias.nombre}}</td>
+                <td *ngIf="categorias.estado"><i class="far fa-check-circle"></i></td>
+                <td *ngIf="!categorias.estado"><i class="far fa-times-circle"></i></td>
+                <td>
+                  <button type="button" class="btn btn-secondary separar" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getCategoria(categorias._id)">
+                    <i class="fas fa-edit text-primary"></i></button>
+                  <button type="button" class="btn btn-danger separar" (click)="deleteCategoria(categorias._id)">
+                    <i class="fas fa-trash text-danger"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 style="text-align: start; margin-top: 10px;" *ngIf="listCategorias.length==0">No hay categorias para mostrar</h5>
+          <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{titulo | uppercase }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="categoriaForm" (ngSubmit)="agregarCategoria()">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Categoria" formControlName="nombre" id="name"/>
+            <div class="text-danger"
+              *ngIf="categoriaForm.get('nombre')?.hasError('required') && categoriaForm.get('nombre')?.touched">
+              <span>La categoria es <strong>obligatoria</strong></span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelar()">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="categoriaForm.invalid || enviado" (click)="agregarCategoria()" data-bs-dismiss="modal"
+          class="btn btn-primary">
+          Registrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

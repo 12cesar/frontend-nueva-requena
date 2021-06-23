@@ -1,0 +1,108 @@
+<div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body text-center">
+            <span class="titulo">LISTADO DE NOTICIAS</span>
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">Crear <i class="fas fa-plus"></i></button>
+            <table class="table table-striped" *ngIf="listNoticias.length>0">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">fecha</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let noticia of listNoticias | paginate: { itemsPerPage: 10, currentPage: pageActual }">
+                  <td>{{noticia.titulo}}</td>
+                  <td style="width: 400px;">{{noticia.descripcion}}</td>
+                  <td>{{noticia.fecha}}</td>
+                  <td *ngIf="noticia.estado"><i class="far fa-check-circle"></i></td>
+                  <td *ngIf="!noticia.estado"><i class="far fa-times-circle"></i></td>
+                  <td>
+                    <button type="button" (click)="getNoticia(noticia._id)" class="btn btn-secondary separar"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <i class="fas fa-edit text-primary"></i></button>
+                    <button (click)="deleteNoticia(noticia._id)" type="button" class="btn btn-danger separar">
+                      <i class="fas fa-trash text-danger"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h5 style="text-align: start; margin-top: 10px;" *ngIf="listNoticias.length==0">No hay noticias para mostrar</h5>
+            <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{titulo | uppercase}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelar()"></button>
+        </div>
+        <div class="modal-body">
+          
+          
+          <form [formGroup]="noticiasForm" (ngSubmit)="agregarNoticia()">
+            <div class="mb-3">
+              <select class="form-select" aria-label="Default select example" (change)="onChange($event.target)" id="selectImg" >
+                <option selected value="">Seleccionar un tipo de archivo</option>
+                <option value="1">Imagen</option>
+                <option value="2">Video</option>
+              </select>
+            </div>
+            <div class="container imagenArea text-center" style="width: 100%;" *ngIf="imagenAreaPri && imagenVista">
+              <img src="{{imagenAreaPri}}" alt="...">
+            </div>
+            <div class="mb-3" *ngIf="imagenVista">
+              <label>Seleccionar Imagen - tamaño maximo 1MB</label>
+              <hr>
+              <input type="file" #fileInput class="form-control" (change)="capturarFile($event)"
+                id="fileImg">
+            </div>
+            <div class="mb-3" *ngIf="videoVista">
+              <label for="recipient-name" class="col-form-label">Video</label>
+              <input type="text" class="form-control" placeholder="agregar link" id="video" formControlName="linkVideo" />
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-success" *ngIf="butonImagen" type="button" (click)="editarImagen()">Editar Imagen</button>
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Titulo</label>
+              <input type="text" class="form-control" placeholder="titulo" formControlName="titulo" id="name" />
+              <div class="text-danger"
+                *ngIf="noticiasForm.get('titulo')?.hasError('required') && noticiasForm.get('titulo')?.touched">
+                <span>El titulo es <strong>obligatorio</strong></span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1">Descripcion</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Descripcion"
+                formControlName="descripcion" rows="5"></textarea>
+              <div class="text-danger"
+                *ngIf="noticiasForm.get('descripcion')?.hasError('required') && noticiasForm.get('descripcion')?.touched">
+                <span>La descripcion es <strong>obligatoria</strong></span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelar()">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="noticiasForm.invalid" (click)="agregarNoticia()" data-bs-dismiss="modal"
+            class="btn btn-primary">
+            Registrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

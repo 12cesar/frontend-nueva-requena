@@ -1,0 +1,18 @@
+<section class="subject mb-5" style="margin-top: 120px;">
+    <div class="subject-heading">
+        <h2>NUESTROS PROFESORES</h2>
+        <p>Presentamos a nuestra plana docente </p>
+    </div>
+
+    <div class="container marketing mt-5">
+        <div class="row">
+            <div class="col-lg-4" *ngFor="let docente of listDocente">
+                <img src="{{docente.img}}" alt="" class="docente">
+                <h2 class="tituloDocente mt-5">{{docente.nombre}}</h2>
+                <h2 class="tituloDocente">{{docente.apellido}}</h2>
+                <p>{{docente.descripcion}}</p>
+            </div>
+        </div>
+
+    </div>
+</section>

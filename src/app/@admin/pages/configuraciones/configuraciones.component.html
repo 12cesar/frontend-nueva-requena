@@ -1,0 +1,83 @@
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body text-center">
+            <span class="titulo">LISTADO DE CONFIGURACIONES</span>
+            <table class="table table-striped" *ngIf="listHistoria.length>0">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let historia of listHistoria | paginate: { itemsPerPage: 10, currentPage: pageActual }">
+                  <td>{{historia.titulo}}</td>
+                  <td>{{historia.mensaje}}</td>
+                  <td>
+                    <button type="button" (click)="verAreaID(historia._id)" class="btn btn-secondary separar"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <i class="fas fa-edit text-primary"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h5 style="text-align: start; margin-top: 10px;" *ngIf="listHistoria.length==0">No hay configuraciones para mostrar</h5>
+            <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{titulo | uppercase}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container imagenArea text-center" style="width: 100%;" *ngIf="imagenAreaPri">
+            <img src="{{imagenAreaPri}}" alt="...">
+          </div>
+          <div class="mb-3">
+            <label>Seleccionar un Archivo - tamaño maximo 1MB</label>
+            <hr>
+            <input type="file" #fileInput class="form-control" (change)="capturarFile($event)"
+              id="fileImg">
+          </div>
+          <form [formGroup]="historiaForm" (ngSubmit)="agregarHistoria()">
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Nombre</label>
+              <input type="text" class="form-control" placeholder="Area" formControlName="titulo" id="name" />
+              <div class="text-danger"
+                *ngIf="historiaForm.get('titulo')?.hasError('required') && historiaForm.get('titulo')?.touched">
+                <span>El area es <strong>obligatorio</strong></span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1">Descripcion</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="mensaje"
+                formControlName="mensaje" rows="5"></textarea>
+              <div class="text-danger"
+                *ngIf="historiaForm.get('mensaje')?.hasError('required') && historiaForm.get('mensaje')?.touched">
+                <span>La descripcion es <strong>obligatoria</strong></span>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelar()">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="historiaForm.invalid" (click)="agregarHistoria()" data-bs-dismiss="modal"
+            class="btn btn-primary">
+            Registrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

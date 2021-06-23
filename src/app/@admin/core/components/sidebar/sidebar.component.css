@@ -1,0 +1,10 @@
+@import "./../../../pages/admin.component.css";
+#sidebar-wrapper {
+    background-color: rgb(32, 30, 30);
+}
+.titulo{
+    text-decoration: none;
+    font-size: 15px;
+    color: white;
+    background-color: rgb(32, 30, 30)!important;
+}

@@ -1,0 +1,5 @@
+@import "./../../../pages/public.component.css";
+.activo{
+    background-color: #f54417;
+    color: #fff;
+}

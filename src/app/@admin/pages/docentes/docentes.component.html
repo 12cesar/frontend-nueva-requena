@@ -1,0 +1,127 @@
+<div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-body text-center">
+            <span class="titulo">LISTADO DE DOCENTES</span>
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">Crear <i class="fas fa-plus"></i></button>
+            <table class="table table-striped" *ngIf="listDocentes.length>0">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Descripcion</th>
+                  <th scope="col">Area</th>
+                  <th scope="col">Categoria</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let docente of listDocentes | paginate: { itemsPerPage: 10, currentPage: pageActual }">
+                  <td>{{docente.nombre}}</td>
+                  <td>{{docente.apellido}}</td>
+                  <td style="width: 300px;">{{docente.descripcion}}</td>
+                  <td>{{docente.area.nombre}}</td>
+                  <td>{{docente.categoria.nombre}}</td>
+                  <td *ngIf="docente.estado"><i class="far fa-check-circle"></i></td>
+                  <td *ngIf="!docente.estado"><i class="far fa-times-circle"></i></td>
+                  <td>
+                    <button type="button" (click)="getDocente(docente._id)" class="btn btn-secondary separar"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <i class="fas fa-edit text-primary"></i></button>
+                    <button (click)="deleteDocente(docente._id)" type="button" class="btn btn-danger separar">
+                      <i class="fas fa-trash text-danger"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h5 style="text-align: start; margin-top: 10px;" *ngIf="listDocentes.length==0">No hay docentes para mostrar</h5>
+            <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{titulo | uppercase}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container imagenArea text-center" style="width: 100%;" *ngIf="imagenAreaPri">
+            <img src="{{imagenAreaPri}}" alt="...">
+          </div>
+          <div class="mb-3">
+            <label>Seleccionar un Archivo - tamaño maximo 1MB</label>
+            <hr>
+            <input type="file" #fileInput class="form-control" (change)="capturarFile($event)"
+              id="fileImg">
+          </div>
+          <form [formGroup]="docentesForm" (ngSubmit)="agregarDocente()">
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Nombre</label>
+              <input type="text" class="form-control" placeholder="nombre" formControlName="nombre" id="name" />
+              <div class="text-danger"
+                *ngIf="docentesForm.get('nombre')?.hasError('required') && docentesForm.get('nombre')?.touched">
+                <span>El titulo es <strong>obligatorio</strong></span>
+              </div>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Apellido</label>
+                <input type="text" class="form-control" placeholder="apellido" formControlName="apellido" id="name" />
+                <div class="text-danger"
+                  *ngIf="docentesForm.get('apellido')?.hasError('required') && docentesForm.get('apellido')?.touched">
+                  <span>El titulo es <strong>obligatorio</strong></span>
+                </div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1">Descripcion</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="descripcion"
+                formControlName="descripcion" rows="5"></textarea>
+              <div class="text-danger"
+                *ngIf="docentesForm.get('descripcion')?.hasError('required') && docentesForm.get('descripcion')?.touched">
+                <span>La descripcion es <strong>obligatoria</strong></span>
+              </div>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Area</label>
+                <select class="form-select" aria-label="Default select example" formControlName="area">
+                    <option selected value=''>Abrir este menú de selección</option>
+                    <option *ngFor="let areas of listAreas" value="{{areas._id}}">{{areas.nombre}}</option>
+                </select>
+                <div class="text-danger"
+                  *ngIf="docentesForm.get('apellido')?.hasError('required') && docentesForm.get('apellido')?.touched">
+                  <span>El titulo es <strong>obligatorio</strong></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Categoria</label>
+                <select class="form-select" aria-label="Default select example" formControlName="categoria">
+                    <option selected value=''>Abrir este menú de selección</option>
+                    <option *ngFor="let categorias of listCategorias" value="{{categorias._id}}">{{categorias.nombre}}</option>
+                    
+                </select>
+                <div class="text-danger"
+                  *ngIf="docentesForm.get('apellido')?.hasError('required') && docentesForm.get('apellido')?.touched">
+                  <span>El titulo es <strong>obligatorio</strong></span>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelar()">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="docentesForm.invalid" (click)="agregarDocente()" data-bs-dismiss="modal"
+            class="btn btn-primary">
+            Registrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,30 @@
+<section class="header">
+    <nav>
+        <a [routerLink]="['/']" class="logo">
+            <img src="https://backend-nueva-requena.herokuapp.com/assets/images/logo.png">
+        </a>
+        <input class="menu-btn" type="checkbox" id="menu-btn">
+        <label class="menu-icon" for="menu-btn">
+            <span class="nav-icon"></span>
+        </label>
+        <ul class="menu">
+            <ng-container *ngIf="!authService.loggedIn() else admin">
+                <li><a [routerLink]="['/']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">INICIO</a></li>
+                <li><a [routerLink]="['/acerca']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}" >NOSOTROS</a></li>
+                <li><a [routerLink]="['/cursos']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">CURSOS</a></li>
+                <li><a [routerLink]="['/noticias']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">NOTICIAS</a></li>
+                <li><a [routerLink]="['/profesores']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">EQUIPO</a></li>
+                <li><a [routerLink]="['/contacto']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">CONTACTO</a></li>
+            </ng-container>
+            <ng-template #admin>
+                <li><a [routerLink]="['/']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">HOME</a></li>
+                <li><a [routerLink]="['/acerca']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">ACERCA DE</a></li>
+                <li><a [routerLink]="['/cursos']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">CLASES</a></li>
+                <li><a [routerLink]="['/noticias']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">NOTICIAS</a></li>
+                <li><a [routerLink]="['/profesores']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">EQUIPO</a></li>
+                <li><a [routerLink]="['/contacto']" routerLinkActive="activo" [routerLinkActiveOptions]="{exact: true}">CONTACTO</a></li>
+                <li><a href="" [routerLink]="['/admin']" routerLinkActive="router-link-active" >ADMIN</a></li>
+            </ng-template>
+        </ul>
+    </nav>
+</section>>

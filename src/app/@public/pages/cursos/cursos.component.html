@@ -1,0 +1,14 @@
+<section class="subject" style="margin-top: 140px;">
+    <div class="subject-heading">
+        <h2>NUESTROS CURSOS</h2>
+        <p>Mediante la clases, se busca mejorar conocimientos, habilidades, actitudes y conductas es por ello que la I.E. JEC Nueva Requena te brinda estos cursos para  maximizar tu eficiencia y logres tus objetivos en el <strong>futuro.</strong></p>
+    </div>
+    <div class="box-container">
+        <div class="box" *ngFor="let cursos of listCursos">
+            <img src="{{cursos.img}}">
+            <font>{{cursos.nombre}}</font>
+            <p>{{cursos.descripcion}}.</p>
+        </div>
+        
+    </div>
+</section>

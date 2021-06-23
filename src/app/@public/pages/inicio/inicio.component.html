@@ -1,0 +1,41 @@
+<section class="header-panel">
+    <div class="header-content">
+        <div class="header-text">
+            <h1 class="mb-3">JEC Nueva Requena</h1>
+            <p *ngFor="let item of listHistoria">{{item.mensaje}}</p>
+            <a [routerLink]="['/acerca']" class="header-btn">Leer Mas</a>
+        </div>
+        <div class="header-image">
+            <img src="https://backend-nueva-requena.herokuapp.com/assets/images/interfaz.jpg">
+        </div>
+    </div>
+    <div class="arrow"></div>
+    <span class="scroll">Scroll Down</span>
+</section>
+<section class="subject">
+    <div class="subject-heading">
+        <h2>NUESTROS CURSOS</h2>
+        <p>Mediante la clases, se busca mejorar conocimientos, habilidades, actitudes y conductas es por ello que la I.E. JEC Nueva Requena te brinda estos cursos para  maximizar tu eficiencia y logres tus objetivos en el <strong>futuro.</strong></p>
+    </div>
+    <div class="box-container">
+        <div class="box" *ngFor="let areas of listAreas">
+            <img src="{{areas.img}}">
+            <font>{{areas.nombre}}</font>
+            <p class="mt-3">{{areas.descripcion}}</p>
+            <a [routerLink]="['/cursos']" >Ver</a>
+        </div>
+    </div>
+</section>
+
+<section class="about">
+    <div class="about-content">
+        <div class="about-image">
+            <img src="https://backend-nueva-requena.herokuapp.com/assets/images/interfaz4.png">
+        </div>
+        <div class="about-text">
+            <h1>Educacion para todos</h1>
+            <p class="mt-3">La educación es uno de los factores que más influye en el avance y progreso de personas y sociedades. Además de proveer conocimientos, la educación enriquece la cultura, el espíritu, los valores y todo aquello que nos caracteriza como seres humanos. <strong>ESCRIBENOS!!</strong> </p>
+            <a [routerLink]="['/contacto']" class="about-btn">Leer Mas</a>
+        </div>
+    </div>
+</section>
